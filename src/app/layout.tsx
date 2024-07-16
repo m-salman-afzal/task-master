@@ -1,3 +1,4 @@
+import {Analytics} from "@vercel/analytics/react";
 import {Inter} from "next/font/google";
 
 import type {Metadata} from "next";
@@ -24,6 +25,7 @@ export default function RootLayout({
             <h1 className="text-3xl font-bold">Task Master</h1>
           </header>
           {children}
+          <Analytics />
         </div>
       </body>
     </html>
