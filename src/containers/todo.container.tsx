@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-import {PaginationComponent} from "@components/pagination.component";
+import {PaginationComponent} from "@components/shared/pagination.component";
 import {TaskAddComponent} from "@components/taskAdd.component";
 import {TaskListComponent} from "@components/taskList.component";
 
