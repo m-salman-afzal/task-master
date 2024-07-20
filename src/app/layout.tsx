@@ -24,7 +24,9 @@ export default function RootLayout({
           <header className="bg-[#2a2a4e] py-6 px-8 shadow-sm">
             <h1 className="text-3xl font-bold">Task Master</h1>
           </header>
-          {children}
+          <main className="flex-1 py-8 px-8">
+            <div className="max-w-md mx-auto grid gap-6">{children}</div>
+          </main>
           <Analytics />
         </div>
       </body>

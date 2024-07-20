@@ -1,7 +1,5 @@
 import React, {useState} from "react";
 
-import {ButtonUi} from "@ui/button.ui";
-
 import {PaginationComponent} from "@components/pagination.component";
 import {TaskAddComponent} from "@components/taskAdd.component";
 import {TaskListComponent} from "@components/taskList.component";
@@ -45,17 +43,6 @@ export const TodoContainer = () => {
     setInputValue("");
   };
 
-  const displayedItems = () => {
-    const start = (pagination.currentPage - 1) * pagination.perPage;
-    const end = start + pagination.perPage;
-
-    console.log("pagination", pagination, start, end);
-
-    console.log("todos", todos.slice(start, end));
-
-    return todos.slice(start, end);
-  };
-
   const handleCompleted = (key: number) => {
     const newTodos = todos.map((todo) => {
       if (todo.key === key) {
@@ -74,10 +61,16 @@ export const TodoContainer = () => {
   const handleDelete = (key: number) => {
     const newTodos = todos.filter((todo) => todo.key !== key);
     setTodos(newTodos);
+
+    const start = (pagination.currentPage - 1) * pagination.perPage;
+    const end = start + pagination.perPage;
+
+    const displayedItems = todos.slice(start, end);
+
     setPagination({
       ...pagination,
       itemCount: todos.length - 1,
-      currentPage: displayedItems().length === 1 ? pagination.currentPage - 1 : pagination.currentPage
+      currentPage: displayedItems.length === 1 ? pagination.currentPage - 1 : pagination.currentPage
     });
   };
 
@@ -86,20 +79,17 @@ export const TodoContainer = () => {
   };
 
   return (
-    <main className="flex-1 py-8 px-8">
-      <div className="max-w-md mx-auto grid gap-6">
-        <TaskAddComponent handleAdd={handleAdd} inputValue={inputValue} handleInputChange={handleInputChange} />
-        <div className="bg-[#2a2a4e] rounded-lg shadow-md p-6 grid gap-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Tasks</h2>
-            <ButtonUi variant="destructive" size="sm">
-              Clear Completed
-            </ButtonUi>
-          </div>
-          <TaskListComponent todos={displayedItems()} handleCompleted={handleCompleted} handleDelete={handleDelete} />
-        </div>
-        {todos.length > 0 && <PaginationComponent pagination={pagination} setPagination={setPagination} />}
-      </div>
-    </main>
+    <>
+      <TaskAddComponent handleAdd={handleAdd} inputValue={inputValue} handleInputChange={handleInputChange} />
+
+      <TaskListComponent
+        todos={todos}
+        handleCompleted={handleCompleted}
+        handleDelete={handleDelete}
+        pagination={pagination}
+      />
+
+      {todos.length > 0 && <PaginationComponent pagination={pagination} setPagination={setPagination} />}
+    </>
   );
 };
