@@ -6,7 +6,14 @@
         "lib": [
             "ESNext"
         ],
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
         "outDir": "./build/",
+        "noEmit": true,
+        "isolatedModules": true,
         "incremental": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
