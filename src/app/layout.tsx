@@ -1,4 +1,5 @@
 import {Analytics} from "@vercel/analytics/react";
+import {SpeedInsights} from "@vercel/speed-insights/next";
 import {Inter} from "next/font/google";
 
 import type {Metadata} from "next";
@@ -28,6 +29,7 @@ export default function RootLayout({
             <div className="max-w-md mx-auto grid gap-6">{children}</div>
           </main>
           <Analytics />
+          <SpeedInsights />
         </div>
       </body>
     </html>
