@@ -21,9 +21,13 @@ export const TodoContainer = () => {
   const [inputValue, setInputValue] = useState("");
   const [pagination, setPagination] = useState<TPagination>({
     currentPage: 1,
-    perPage: 2,
+    perPage: 5,
     itemCount: 0
   });
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue((event.target as any).value);
+  };
 
   const handleAdd = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -80,9 +84,16 @@ export const TodoContainer = () => {
     [todos, pagination]
   );
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue((event.target as any).value);
-  };
+  const handleClearCompleted = useCallback(() => {
+    const newTodos = todos.filter((todo) => !todo.completed);
+    setTodos(newTodos);
+
+    setPagination({
+      ...pagination,
+      itemCount: todos.length - 1,
+      currentPage: 1
+    });
+  }, [todos]);
 
   return (
     <>
@@ -92,6 +103,7 @@ export const TodoContainer = () => {
         todos={todos}
         handleCompleted={handleCompleted}
         handleDelete={handleDelete}
+        handleClearCompleted={handleClearCompleted}
         pagination={pagination}
       />
 
