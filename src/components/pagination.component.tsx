@@ -24,7 +24,16 @@ export const PaginationComponent = (props: IProps) => {
   const pagesDisplay = () => {
     switch (true) {
       case isFirstPage: {
-        return [props.pagination.currentPage, props.pagination.currentPage + 1, props.pagination.currentPage + 2];
+        switch (totalPages) {
+          case 1:
+            return [1];
+
+          case 2:
+            return [1, 2];
+
+          default:
+            return [props.pagination.currentPage, props.pagination.currentPage + 1, props.pagination.currentPage + 2];
+        }
       }
 
       case isLastPage: {
@@ -53,12 +62,12 @@ export const PaginationComponent = (props: IProps) => {
           return (
             <>
               {index === 0 && (
-                <PaginationItem>
+                <PaginationItem key={`pp_${index}`}>
                   <PaginationPrevious onClick={() => handlePageChange(props.pagination.currentPage - 1)} />
                 </PaginationItem>
               )}
               {!pages.includes(1) && index === 0 && (
-                <PaginationItem>
+                <PaginationItem key={`pe1_${index}`}>
                   <PaginationEllipsis onClick={() => handlePageChange(props.pagination.currentPage - 3)} />
                 </PaginationItem>
               )}
@@ -68,12 +77,12 @@ export const PaginationComponent = (props: IProps) => {
                 </PaginationLink>
               </PaginationItem>
               {!pages.includes(totalPages) && index === 2 && (
-                <PaginationItem>
+                <PaginationItem key={`pe2_${index}`}>
                   <PaginationEllipsis onClick={() => handlePageChange(props.pagination.currentPage + 3)} />
                 </PaginationItem>
               )}
               {index === pages.length - 1 && (
-                <PaginationItem>
+                <PaginationItem key={`pn_${index}`}>
                   <PaginationNext onClick={() => handlePageChange(props.pagination.currentPage + 1)} />
                 </PaginationItem>
               )}

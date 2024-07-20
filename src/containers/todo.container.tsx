@@ -49,6 +49,10 @@ export const TodoContainer = () => {
     const start = (pagination.currentPage - 1) * pagination.perPage;
     const end = start + pagination.perPage;
 
+    console.log("pagination", pagination, start, end);
+
+    console.log("todos", todos.slice(start, end));
+
     return todos.slice(start, end);
   };
 
@@ -70,6 +74,11 @@ export const TodoContainer = () => {
   const handleDelete = (key: number) => {
     const newTodos = todos.filter((todo) => todo.key !== key);
     setTodos(newTodos);
+    setPagination({
+      ...pagination,
+      itemCount: todos.length - 1,
+      currentPage: displayedItems().length === 1 ? pagination.currentPage - 1 : pagination.currentPage
+    });
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,7 +98,7 @@ export const TodoContainer = () => {
           </div>
           <TaskListComponent todos={displayedItems()} handleCompleted={handleCompleted} handleDelete={handleDelete} />
         </div>
-        <PaginationComponent pagination={pagination} setPagination={setPagination} />
+        {todos.length > 0 && <PaginationComponent pagination={pagination} setPagination={setPagination} />}
       </div>
     </main>
   );
