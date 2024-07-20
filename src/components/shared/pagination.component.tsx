@@ -1,3 +1,5 @@
+import {Fragment, memo} from "react";
+
 import {
   Pagination,
   PaginationContent,
@@ -15,7 +17,7 @@ interface IProps {
   setPagination: React.Dispatch<React.SetStateAction<TPagination>>;
 }
 
-export const PaginationComponent = (props: IProps) => {
+export const PaginationComponent = memo((props: IProps) => {
   const totalPages = Math.ceil(props.pagination.itemCount / props.pagination.perPage);
 
   const isFirstPage = props.pagination.currentPage === 1;
@@ -60,36 +62,36 @@ export const PaginationComponent = (props: IProps) => {
       <PaginationContent>
         {pages.map((page, index) => {
           return (
-            <>
+            <Fragment key={page}>
               {index === 0 && (
-                <PaginationItem key={`pp_${index}`}>
+                <PaginationItem>
                   <PaginationPrevious onClick={() => handlePageChange(props.pagination.currentPage - 1)} />
                 </PaginationItem>
               )}
               {!pages.includes(1) && index === 0 && (
-                <PaginationItem key={`pe1_${index}`}>
+                <PaginationItem>
                   <PaginationEllipsis onClick={() => handlePageChange(props.pagination.currentPage - 3)} />
                 </PaginationItem>
               )}
-              <PaginationItem key={page}>
+              <PaginationItem>
                 <PaginationLink isActive={page === props.pagination.currentPage} onClick={() => handlePageChange(page)}>
                   {page}
                 </PaginationLink>
               </PaginationItem>
               {!pages.includes(totalPages) && index === 2 && (
-                <PaginationItem key={`pe2_${index}`}>
+                <PaginationItem>
                   <PaginationEllipsis onClick={() => handlePageChange(props.pagination.currentPage + 3)} />
                 </PaginationItem>
               )}
               {index === pages.length - 1 && (
-                <PaginationItem key={`pn_${index}`}>
+                <PaginationItem>
                   <PaginationNext onClick={() => handlePageChange(props.pagination.currentPage + 1)} />
                 </PaginationItem>
               )}
-            </>
+            </Fragment>
           );
         })}
       </PaginationContent>
     </Pagination>
   );
-};
+});

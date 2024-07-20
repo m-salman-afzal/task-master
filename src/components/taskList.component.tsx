@@ -13,7 +13,7 @@ interface IProps {
   handleDelete: (key: number) => void;
 }
 
-const TaskList = (props: IProps) => {
+export const TaskListComponent = memo((props: IProps) => {
   const displayedItems = () => {
     const start = (props.pagination.currentPage - 1) * props.pagination.perPage;
     const end = start + props.pagination.perPage;
@@ -54,6 +54,4 @@ const TaskList = (props: IProps) => {
       </div>
     </div>
   );
-};
-
-export const TaskListComponent = memo(TaskList);
+});

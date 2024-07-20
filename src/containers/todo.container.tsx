@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 
 import {PaginationComponent} from "@components/shared/pagination.component";
 import {TaskAddComponent} from "@components/taskAdd.component";
@@ -43,36 +43,42 @@ export const TodoContainer = () => {
     setInputValue("");
   };
 
-  const handleCompleted = (key: number) => {
-    const newTodos = todos.map((todo) => {
-      if (todo.key === key) {
-        return {
-          ...todo,
-          completed: !todo.completed
-        };
-      }
+  const handleCompleted = useCallback(
+    (key: number) => {
+      const newTodos = todos.map((todo) => {
+        if (todo.key === key) {
+          return {
+            ...todo,
+            completed: !todo.completed
+          };
+        }
 
-      return todo;
-    });
+        return todo;
+      });
 
-    setTodos(newTodos);
-  };
+      setTodos(newTodos);
+    },
+    [todos]
+  );
 
-  const handleDelete = (key: number) => {
-    const newTodos = todos.filter((todo) => todo.key !== key);
-    setTodos(newTodos);
+  const handleDelete = useCallback(
+    (key: number) => {
+      const newTodos = todos.filter((todo) => todo.key !== key);
+      setTodos(newTodos);
 
-    const start = (pagination.currentPage - 1) * pagination.perPage;
-    const end = start + pagination.perPage;
+      const start = (pagination.currentPage - 1) * pagination.perPage;
+      const end = start + pagination.perPage;
 
-    const displayedItems = todos.slice(start, end);
+      const displayedItems = todos.slice(start, end);
 
-    setPagination({
-      ...pagination,
-      itemCount: todos.length - 1,
-      currentPage: displayedItems.length === 1 ? pagination.currentPage - 1 : pagination.currentPage
-    });
-  };
+      setPagination({
+        ...pagination,
+        itemCount: todos.length - 1,
+        currentPage: displayedItems.length === 1 ? pagination.currentPage - 1 : pagination.currentPage
+      });
+    },
+    [todos, pagination]
+  );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue((event.target as any).value);
